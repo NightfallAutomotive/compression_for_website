@@ -117,7 +117,8 @@
     context.textBaseline = 'bottom';
     context.shadowColor = 'rgb(0 0 0 / 50%)';
     context.shadowBlur = size / 4;
-    context.fillStyle = 'rgb(236 239 244 / 85%)';
+    // Neutral white, so the text stays grey when grayscale is on.
+    context.fillStyle = 'rgb(255 255 255 / 85%)';
     context.fillText(text, canvas.width - margin, canvas.height - margin);
     context.restore();
   }
@@ -157,18 +158,29 @@
     return nordLookup;
   }
 
-  // Recolours the canvas with the Nord palette, blended with the original by `strength` (0–1).
-  function nordify(context, canvas, strength) {
-    const lookup = getNordLookup();
+  // Recolours the canvas pixel by pixel: first towards the Nord palette by `nordStrength` (0–1),
+  // then to grayscale. Done by hand rather than with `context.filter`, which not every browser
+  // supports, and so grayscale still applies after Nord has added its colours.
+  function recolor(context, canvas, { nordStrength, grayscale }) {
+    const lookup = nordStrength ? getNordLookup() : null;
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     const { data } = imageData;
 
     for (let i = 0; i < data.length; i += 4) {
-      const [nr, ng, nb] = NORD[lookup[((data[i] >> 3) << 10) | ((data[i + 1] >> 3) << 5) | (data[i + 2] >> 3)]];
+      if (lookup) {
+        const [nr, ng, nb] = NORD[lookup[((data[i] >> 3) << 10) | ((data[i + 1] >> 3) << 5) | (data[i + 2] >> 3)]];
 
-      data[i] += (nr - data[i]) * strength;
-      data[i + 1] += (ng - data[i + 1]) * strength;
-      data[i + 2] += (nb - data[i + 2]) * strength;
+        data[i] += (nr - data[i]) * nordStrength;
+        data[i + 1] += (ng - data[i + 1]) * nordStrength;
+        data[i + 2] += (nb - data[i + 2]) * nordStrength;
+      }
+
+      if (grayscale) {
+        // Rec. 709 luma, the same weighting as the CSS grayscale() filter.
+        data[i] = (0.2126 * data[i]) + (0.7152 * data[i + 1]) + (0.0722 * data[i + 2]);
+        data[i + 1] = data[i];
+        data[i + 2] = data[i];
+      }
     }
 
     context.putImageData(imageData, 0, 0);
@@ -202,18 +214,12 @@
     const grayscale = isOn('grayscale');
     const watermarkText = isOn('watermark') ? String(data.get('watermarkText') || '').trim() : '';
 
-    if (grayscale) {
-      options.beforeDraw = (context) => {
-        context.filter = 'grayscale(100%)';
-      };
-    }
-
     const nordStrength = isOn('nord') ? number('nordStrength') / 100 : 0;
 
-    if (nordStrength || watermarkText) {
+    if (grayscale || nordStrength || watermarkText) {
       options.drew = (context, canvas) => {
-        if (nordStrength) {
-          nordify(context, canvas, nordStrength);
+        if (grayscale || nordStrength) {
+          recolor(context, canvas, { nordStrength, grayscale });
         }
 
         // Drawn last so the text stays crisp rather than being recoloured.
