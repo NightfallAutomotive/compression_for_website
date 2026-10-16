@@ -1,10 +1,12 @@
 # Compressor.js
 
-[![Coverage Status](https://img.shields.io/codecov/c/github/fengyuanchen/compressorjs.svg)](https://codecov.io/gh/fengyuanchen/compressorjs) [![Downloads](https://img.shields.io/npm/dm/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Version](https://img.shields.io/npm/v/compressorjs.svg)](https://www.npmjs.com/package/compressorjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/compressorjs.svg)](https://unpkg.com/compressorjs/dist/compressor.common.js)
+[![CI](https://github.com/NightfallAutomotive/compression_for_website/actions/workflows/ci.yml/badge.svg)](https://github.com/NightfallAutomotive/compression_for_website/actions/workflows/ci.yml)
 
 > JavaScript image compressor. Uses the browser's native [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress an image on the client side before uploading it.
 
-- [Website](https://fengyuanchen.github.io/compressorjs)
+- [Demo](docs/index.html)
+
+A fork of [Compressor.js](https://github.com/fengyuanchen/compressorjs) by Chen Fengyuan, modernised for current browsers.
 
 ## Table of Contents
 
@@ -25,7 +27,7 @@ dist/
 ├── compressor.js        (UMD)
 ├── compressor.min.js    (UMD, compressed)
 ├── compressor.common.js (CommonJS, default)
-└── compressor.esm.js    (ES Module)
+└── compressor.mjs       (ES Module)
 ```
 
 ## Getting Started
@@ -33,7 +35,7 @@ dist/
 ### Install
 
 ```shell
-npm install compressorjs
+npm install compression-for-website
 ```
 
 ### Usage
@@ -61,7 +63,7 @@ Alternatively, you may use `Compressor.create(file[, options])`.
 ```
 
 ```js
-import Compressor from 'compressorjs';
+import Compressor from 'compression-for-website';
 
 document.getElementById('file').addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -306,7 +308,7 @@ new Compressor(file, {
 - Type: `Function`
 - Default: `null`
 - Parameters:
-  - `result`: The compressed image (`File` in modern browsers, or `Blob` as a fallback).
+  - `result`: The compressed image (`File`), or the original file when the compressed one would be larger.
 
 The hook function to execute when the image has been successfully compressed.
 
@@ -375,12 +377,7 @@ If you have to use another compressor with the same namespace, just call the `Co
 
 ## Browser Support
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Opera (latest)
-- Edge (latest)
-- Internet Explorer 10+
+All browsers matched by the [browserslist `defaults`](https://browsersl.ist/#q=defaults) query (current Chrome, Edge, Firefox, Safari and their mobile versions). Internet Explorer is not supported.
 
 ## Contributing
 
@@ -392,6 +389,6 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com/)
+[MIT](LICENSE) © Robert Remblance, based on Compressor.js © [Chen Fengyuan](https://chenfengyuan.com/)
 
 [⬆ back to top](#table-of-contents)

@@ -9,9 +9,8 @@ body:
         This form is only for submitting bug reports. If you have a usage question
         or are unsure if this is really a bug, make sure to:
 
-        - Read the [docs](https://fengyuanchen.github.io/compressorjs)
-        - Ask on [GitHub Discussions](https://github.com/fengyuanchen/compressorjs/discussions)
-        - Look for / ask questions on [Stack Overflow](https://stackoverflow.com/questions/ask?tags=compressorjs)
+        - Read the [docs](https://github.com/NightfallAutomotive/compression_for_website/tree/main/docs)
+        - Ask on [GitHub Discussions](https://github.com/NightfallAutomotive/compression_for_website/discussions)
 
         Also try to search for your issue - it may have already been answered or even fixed in the development branch.
         However, if you find that an old, closed issue still persists in the latest version,
@@ -27,7 +26,7 @@ body:
     attributes:
       label: Link to minimal reproduction
       description: |
-        The easiest way to provide a reproduction is by showing the bug in the [Playground](https://fengyuanchen.github.io/compressorjs).
+        The easiest way to provide a reproduction is by showing the bug in the [Playground](https://github.com/NightfallAutomotive/compression_for_website/tree/main/docs).
         If it cannot be reproduced in the playground and requires a proper build setup, try [StackBlitz](https://stackblitz.com/?starters=frontend).
         If neither of these are suitable, you can always provide a GitHub repository.
 
@@ -63,7 +62,7 @@ body:
     id: system-info
     attributes:
       label: System Info
-      description: Output of `npx envinfo --system --npmPackages compressorjs --binaries --browsers`
+      description: Output of `npx envinfo --system --npmPackages compression-for-website --binaries --browsers`
       render: shell
       placeholder: System, Binaries, Browsers
   - type: textarea

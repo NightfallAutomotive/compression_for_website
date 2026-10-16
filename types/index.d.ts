@@ -31,6 +31,6 @@ declare class Compressor {
   static setDefaults(options: Compressor.Options): void;
 }
 
-declare module 'compressorjs' {
+declare module 'compression-for-website' {
   export default Compressor;
 }

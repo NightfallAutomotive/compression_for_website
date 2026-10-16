@@ -29,7 +29,7 @@ Help us keep Compressor.js open and inclusive. Please read and follow our [Code 
 
 ## Question or Problem
 
-Do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests. You've got much better chances of getting your question answered on [Stack Overflow](https://stackoverflow.com/questions/tagged/compressorjs) where the questions should be tagged with tag `compressorjs`.
+Do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests. Please ask them in [GitHub Discussions](https://github.com/NightfallAutomotive/compression_for_website/discussions) instead.
 
 Stack Overflow is a much better place to ask questions since:
 
@@ -41,11 +41,11 @@ To save you and our time, we will systematically close all issues that are reque
 
 ## Issues and Bugs
 
-If you find a bug in the source code, you can help us by [submitting an issue](#submitting-an-issue) to our [GitHub Repository](https://github.com/fengyuanchen/compressorjs). Even better, you can [submit a Pull Request](#submitting-a-pull-request-pr) with a fix.
+If you find a bug in the source code, you can help us by [submitting an issue](#submitting-an-issue) to our [GitHub Repository](https://github.com/NightfallAutomotive/compression_for_website). Even better, you can [submit a Pull Request](#submitting-a-pull-request-pr) with a fix.
 
 ## Feature Requests
 
-You can *request* a new feature by [submitting an issue](#submitting-an-issue) to our [GitHub Repository](https://github.com/fengyuanchen/compressorjs). If you would like to *implement* a new feature, please submit an issue with a proposal for your work first, to be sure that we can use it.
+You can *request* a new feature by [submitting an issue](#submitting-an-issue) to our [GitHub Repository](https://github.com/NightfallAutomotive/compression_for_website). If you would like to *implement* a new feature, please submit an issue with a proposal for your work first, to be sure that we can use it.
 
 Please consider what kind of change it is:
 
@@ -56,7 +56,7 @@ Please consider what kind of change it is:
 
 ### Submitting an Issue
 
-Before you submit an issue, please search the [issue tracker](https://github.com/fengyuanchen/compressorjs/issues), which may be an issue for your problem already exists and the discussion might inform you of workarounds readily available.
+Before you submit an issue, please search the [issue tracker](https://github.com/NightfallAutomotive/compression_for_website/issues), which may be an issue for your problem already exists and the discussion might inform you of workarounds readily available.
 
 We want to fix all the issues as soon as possible, but before fixing a bug we need to reproduce and confirm it. To reproduce bugs, we will systematically ask you to provide a minimal reproduction scenario using [CodePen](https://codepen.io/pen). Having a live, reproducible scenario gives us a wealth of important information without going back & forth to you with additional questions like:
 
@@ -70,14 +70,14 @@ We will be insisting on a minimal reproduction scenario to save maintainers time
 
 Unfortunately, we are not able to investigate/fix bugs without a minimal reproduction scenario, so if we don't hear back from you we are going to close an issue that doesn't have enough info to be reproduced.
 
-You can file new issues by filling out our [new issue form](https://github.com/fengyuanchen/compressorjs/issues/new).
+You can file new issues by filling out our [new issue form](https://github.com/NightfallAutomotive/compression_for_website/issues/new).
 
 ### Submitting a Pull Request (PR)
 
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-1. Search [GitHub](https://github.com/fengyuanchen/compressorjs/pulls) for an open or closed PR that relates to your submission. You don't want to duplicate effort.
-1. Fork the **fengyuanchen/compressorjs** repo.
+1. Search [GitHub](https://github.com/NightfallAutomotive/compression_for_website/pulls) for an open or closed PR that relates to your submission. You don't want to duplicate effort.
+1. Fork the **NightfallAutomotive/compression_for_website** repo.
 1. Make your changes in a new git branch:
 
     ```shell
@@ -100,7 +100,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-1. In GitHub, send a pull request to `compressorjs:main`.
+1. In GitHub, send a pull request to `compression_for_website:main`.
 1. If we suggest changes then:
     - Make the required updates.
     - Re-run the Compressor.js test suites to ensure tests are still passing.
@@ -169,7 +169,7 @@ Any line of the commit message cannot be longer than 100 characters! This allows
 
 The footer should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-via-commit-messages/) if any.
 
-Here are some [samples](https://github.com/fengyuanchen/compressorjs/commits/main).
+Here are some [samples](https://github.com/NightfallAutomotive/compression_for_website/commits/main).
 
 ### Revert
 
