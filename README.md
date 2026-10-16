@@ -1,15 +1,40 @@
-# Compressor.js
+# Nightfall Compress
 
 [![CI](https://github.com/NightfallAutomotive/compression_for_website/actions/workflows/ci.yml/badge.svg)](https://github.com/NightfallAutomotive/compression_for_website/actions/workflows/ci.yml)
 
 > JavaScript image compressor. Uses the browser's native [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress an image on the client side before uploading it.
 
-- [Demo](docs/index.html)
+**Live demo: [compress-nord.netlify.app](https://compress-nord.netlify.app/)**
 
 A fork of [Compressor.js](https://github.com/fengyuanchen/compressorjs) by Chen Fengyuan, modernised for current browsers.
 
+## Live Demo
+
+Try it at **[compress-nord.netlify.app](https://compress-nord.netlify.app/)**. Drop in an image, tweak the options and download the result. Everything runs in your browser, so your images are never uploaded anywhere.
+
+![The Nightfall Compress playground, showing the options panel and a 37.8% size saving on the sample image](.github/screenshots/playground.jpg)
+
+The playground also has a few fun effects, shown here with the before/after compare slider:
+
+<table>
+  <tr>
+    <td><img src=".github/screenshots/nord.jpg" alt="The sample image recoloured with the Nord palette, compared with the original"></td>
+    <td><img src=".github/screenshots/grayscale-watermark.jpg" alt="The sample image in grayscale with a Nightfall watermark, compared with the original"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Nord</b>: recolours the image with the 16-colour <a href="https://www.nordtheme.com">Nord</a> palette</td>
+    <td align="center"><b>Grayscale + Watermark</b>: black and white, with your own text</td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src=".github/screenshots/mobile.jpg" alt="The playground on a phone" width="280"><br>
+  <sub>Works on phones too.</sub>
+</p>
+
 ## Table of Contents
 
+- [Live Demo](#live-demo)
 - [Main Files](#main-files)
 - [Getting Started](#getting-started)
 - [Options](#options)
