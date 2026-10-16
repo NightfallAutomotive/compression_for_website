@@ -1,6 +1,6 @@
 describe('error', () => {
   it('should be `null` be default', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image);
 
       expect(compressor.options.error).to.be.null;

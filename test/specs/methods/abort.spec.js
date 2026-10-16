@@ -1,6 +1,6 @@
 describe('abort', () => {
   it('should abort the compressing process before read', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image, {
         success() {
           expect.fail(1, 0);
@@ -17,7 +17,7 @@ describe('abort', () => {
   });
 
   it('should abort the compressing process before load', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image, {
         checkOrientation: false,
         success() {
@@ -34,8 +34,32 @@ describe('abort', () => {
     });
   });
 
+  it('should revoke the object URL of the image when aborted before load', (done) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
+      const { revokeObjectURL } = URL;
+      const revoked = [];
+
+      URL.revokeObjectURL = (url) => {
+        revoked.push(url);
+        revokeObjectURL.call(URL, url);
+      };
+
+      const compressor = new Compressor(image, {
+        checkOrientation: false,
+        error() {
+          URL.revokeObjectURL = revokeObjectURL;
+          expect(revoked).to.deep.equal([compressor.image.src]);
+          done();
+        },
+      });
+
+      expect(compressor.image.src.startsWith('blob:')).to.be.true;
+      compressor.abort();
+    });
+  });
+
   it('should abort the compressing process before draw', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         beforeDraw() {
           this.abort();
@@ -52,7 +76,7 @@ describe('abort', () => {
   });
 
   it('should abort the compressing process after drew', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         drew() {
           this.abort();
@@ -69,7 +93,7 @@ describe('abort', () => {
   });
 
   it('should abort the compressing process before output', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         drew() {
           setTimeout(() => {
@@ -88,7 +112,7 @@ describe('abort', () => {
   });
 
   it('should only can be aborted once', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       let count = 0;
       const compressor = new Compressor(image, {
         error() {

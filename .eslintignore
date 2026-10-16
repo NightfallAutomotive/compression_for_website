@@ -1,5 +1,0 @@
-*.local*
-coverage
-dist
-docs
-node_modules

@@ -1,25 +1,23 @@
-import toBlob from 'blueimp-canvas-to-blob';
-import isBlob from 'is-blob';
-import DEFAULTS from './defaults';
+import DEFAULTS from './defaults.js';
 import {
   WINDOW,
-} from './constants';
+} from './constants.js';
 import {
   arrayBufferToDataURL,
   getAdjustedSizes,
   getExif,
   imageTypeToExtension,
   insertExif,
+  isBlob,
   isCanvasAvailable,
   isImageType,
   isPositiveNumber,
   normalizeDecimalNumber,
   parseOrientation,
   resetAndGetOrientation,
-} from './utilities';
+} from './utilities.js';
 
-const { ArrayBuffer, FileReader } = WINDOW;
-const URL = WINDOW.URL || WINDOW.webkitURL;
+const { FileReader, URL } = WINDOW;
 const REGEXP_EXTENSION = /\.\w+$/;
 const AnotherCompressor = WINDOW.Compressor;
 
@@ -66,16 +64,11 @@ export default class Compressor {
       return;
     }
 
-    if (!ArrayBuffer) {
-      options.checkOrientation = false;
-      options.retainExif = false;
-    }
-
     const isJPEGImage = mimeType === 'image/jpeg';
     const checkOrientation = isJPEGImage && options.checkOrientation;
     const retainExif = isJPEGImage && options.retainExif;
 
-    if (URL && !checkOrientation && !retainExif) {
+    if (!checkOrientation && !retainExif) {
       this.load({
         url: URL.createObjectURL(file),
       });
@@ -102,19 +95,11 @@ export default class Compressor {
           this.exif = getExif(result);
         }
 
-        if (checkOrientation || retainExif) {
-          if (
-            !URL
-
-            // Generate a new URL with the default orientation value 1.
-            || orientation > 1
-          ) {
-            data.url = arrayBufferToDataURL(result, mimeType);
-          } else {
-            data.url = URL.createObjectURL(file);
-          }
+        // Generate a new URL with the default orientation value 1.
+        if (orientation > 1) {
+          data.url = arrayBufferToDataURL(result, mimeType);
         } else {
-          data.url = result;
+          data.url = URL.createObjectURL(file);
         }
 
         this.load(data);
@@ -129,11 +114,7 @@ export default class Compressor {
         this.reader = null;
       };
 
-      if (checkOrientation || retainExif) {
-        reader.readAsArrayBuffer(file);
-      } else {
-        reader.readAsDataURL(file);
-      }
+      reader.readAsArrayBuffer(file);
     }
   }
 
@@ -237,21 +218,16 @@ export default class Compressor {
     const params = [];
 
     if (resizable) {
-      let srcX = 0;
-      let srcY = 0;
-      let srcWidth = naturalWidth;
-      let srcHeight = naturalHeight;
-
-      ({ width: srcWidth, height: srcHeight } = getAdjustedSizes({
+      const { width: srcWidth, height: srcHeight } = getAdjustedSizes({
         aspectRatio,
         width: naturalWidth,
         height: naturalHeight,
       }, {
         contain: 'cover',
         cover: 'contain',
-      }[options.resize]));
-      srcX = (naturalWidth - srcWidth) / 2;
-      srcY = (naturalHeight - srcHeight) / 2;
+      }[options.resize]);
+      const srcX = (naturalWidth - srcWidth) / 2;
+      const srcY = (naturalHeight - srcHeight) / 2;
 
       params.push(srcX, srcY, srcWidth, srcHeight);
     }
@@ -318,44 +294,20 @@ export default class Compressor {
         });
 
         if (blob && isJPEGImage && options.retainExif && this.exif && this.exif.length > 0) {
-          const next = (arrayBuffer) => done(toBlob(arrayBufferToDataURL(
-            insertExif(arrayBuffer, this.exif),
-            options.mimeType,
-          )));
-
-          if (blob.arrayBuffer) {
-            blob.arrayBuffer().then(next).catch(() => {
-              this.fail(new Error('Failed to read the compressed image with Blob.arrayBuffer().'));
-            });
-          } else {
-            const reader = new FileReader();
-
-            this.reader = reader;
-            reader.onload = ({ target }) => {
-              next(target.result);
-            };
-            reader.onabort = () => {
-              this.fail(new Error('Aborted to read the compressed image with FileReader.'));
-            };
-            reader.onerror = () => {
-              this.fail(new Error('Failed to read the compressed image with FileReader.'));
-            };
-            reader.onloadend = () => {
-              this.reader = null;
-            };
-            reader.readAsArrayBuffer(blob);
-          }
+          blob.arrayBuffer().then((arrayBuffer) => {
+            done(new Blob([insertExif(arrayBuffer, this.exif)], {
+              type: options.mimeType,
+            }));
+          }).catch(() => {
+            this.fail(new Error('Failed to read the compressed image with Blob.arrayBuffer().'));
+          });
         } else {
           done(blob);
         }
       }
     };
 
-    if (canvas.toBlob) {
-      canvas.toBlob(callback, options.mimeType, options.quality);
-    } else {
-      callback(toBlob(canvas.toDataURL(options.mimeType, options.quality)));
-    }
+    canvas.toBlob(callback, options.mimeType, options.quality);
   }
 
   done({
@@ -363,11 +315,9 @@ export default class Compressor {
     naturalHeight,
     result,
   }) {
-    const { file, image, options } = this;
+    const { file, options } = this;
 
-    if (URL && image.src.indexOf('blob:') === 0) {
-      URL.revokeObjectURL(image.src);
-    }
+    this.releaseImage();
 
     if (result) {
       // Returns original file if the result is greater than it and without size related options
@@ -397,21 +347,10 @@ export default class Compressor {
           );
         }
 
-        try {
-          // Convert the resulting Blob object into a File object for modern browsers.
-          result = new File([result], fileName, {
-            type: result.type,
-          });
-        } catch (error) {
-          // Fallback to Blob if the File constructor is not supported.
-          const date = new Date();
-
-          result.name = fileName;
-
-          // The last modified date is not accurate, but it's better than nothing.
-          result.lastModified = date.getTime();
-          result.lastModifiedDate = date;
-        }
+        // Convert the resulting Blob object into a File object.
+        result = new File([result], fileName, {
+          type: result.type,
+        });
       }
     } else {
       // Returns original file if the result is null in some cases.
@@ -428,10 +367,33 @@ export default class Compressor {
   fail(err) {
     const { options } = this;
 
+    this.releaseImage();
+
     if (options.error) {
       options.error.call(this, err);
     } else {
       throw err;
+    }
+  }
+
+  /**
+   * Detach the source image's handlers and release its object URL, if any.
+   */
+  releaseImage() {
+    const { image } = this;
+
+    if (!image) {
+      return;
+    }
+
+    // Revoking the URL of an image that is still loading fires its `error` event,
+    // so detach the handlers first to avoid reporting the failure twice.
+    image.onload = null;
+    image.onabort = null;
+    image.onerror = null;
+
+    if (image.src.startsWith('blob:')) {
+      URL.revokeObjectURL(image.src);
     }
   }
 

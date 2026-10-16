@@ -8,7 +8,7 @@ describe('setDefaults', () => {
       strict: false,
     });
 
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         quality: 1,
         success(result) {

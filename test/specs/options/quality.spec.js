@@ -1,6 +1,6 @@
 describe('quality', () => {
   it('should be `0.8` by default', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image);
 
       expect(compressor.options.quality).to.equal(0.8);
@@ -9,7 +9,7 @@ describe('quality', () => {
   });
 
   it('should change the size of the output image', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image, {
         quality: 0.6,
         success(result) {

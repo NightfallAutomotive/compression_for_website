@@ -22,7 +22,7 @@ describe('Compressor', () => {
   });
 
   it('should throw error when failed to read the image with FileReader', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image, {
         error(err) {
           expect(err.message).to.equal('Failed to read the image with FileReader.');
@@ -37,7 +37,7 @@ describe('Compressor', () => {
   });
 
   it('should throw error when failed to load the image', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image, {
         checkOrientation: false,
         error(err) {
@@ -52,22 +52,8 @@ describe('Compressor', () => {
     });
   });
 
-  it('should work with polyfill library when `canvas.toBlob` is not supported', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
-      new Compressor(image, {
-        drew(context, canvas) {
-          canvas.toBlob = null;
-        },
-        success(result) {
-          expect(result).to.be.a('file');
-          done();
-        },
-      });
-    });
-  });
-
   it('should work when the `canvas.toBlob` function does not output any blob object', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         drew(context, canvas) {
           canvas.toBlob = (callback) => {

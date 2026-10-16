@@ -1,6 +1,6 @@
 describe('width', () => {
   it('should be `undefined` by default', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       const compressor = new Compressor(image);
 
       expect(compressor.options.width).to.be.undefined;
@@ -9,7 +9,7 @@ describe('width', () => {
   });
 
   it('should equal to the given width', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       const compressor = new Compressor(image, {
         width: 100,
         success(result) {
@@ -28,7 +28,7 @@ describe('width', () => {
   });
 
   it('should equal to the given width even it is rotated', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         width: 100,
         success(result) {
@@ -45,7 +45,7 @@ describe('width', () => {
   });
 
   it('should be ignored when the given width does not greater than 0', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         width: -100,
         success(result) {
@@ -62,7 +62,7 @@ describe('width', () => {
   });
 
   it('should be floored when it contains decimal number', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         // eslint-disable-next-line no-loss-of-precision
         width: 100.30000000000000004,
@@ -80,7 +80,7 @@ describe('width', () => {
   });
 
   it('should be resized to fit the aspect ratio of the original image when the `height` option is set', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         width: 100,
         height: 60,
@@ -99,7 +99,7 @@ describe('width', () => {
   });
 
   it('should be resized to fit the aspect ratio of the original image when the `height` option is set even it is rotated', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         width: 100,
         height: 60,
@@ -118,7 +118,7 @@ describe('width', () => {
   });
 
   it('should be ignored when the `minWidth` option is set and its value is more greater', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         width: 100,
         minWidth: 200,
@@ -136,7 +136,7 @@ describe('width', () => {
   });
 
   it('should be ignored when the `maxWidth` option is set and its value is lesser', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         width: 200,
         maxWidth: 100,

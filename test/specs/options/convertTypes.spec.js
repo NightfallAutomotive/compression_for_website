@@ -1,6 +1,6 @@
 describe('convertTypes', () => {
   it('should convert the image from PNG to JPEG', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       const compressor = new Compressor(image, {
         convertSize: 0,
         success(result) {
@@ -15,7 +15,7 @@ describe('convertTypes', () => {
   });
 
   it('should not convert the image from PNG to JPEG', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       const compressor = new Compressor(image, {
         convertTypes: [],
         convertSize: 0,

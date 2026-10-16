@@ -1,4 +1,4 @@
-import { getExif } from '../../../src/utilities';
+import { getExif } from '../../../src/utilities.js';
 
 function blobToArrayBuffer(blob, callback) {
   const reader = new FileReader();
@@ -11,7 +11,7 @@ function blobToArrayBuffer(blob, callback) {
 
 describe('retainExif', () => {
   it('should not retain the Exif information', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         success(result) {
           blobToArrayBuffer(result, (arrayBuffer) => {
@@ -24,7 +24,7 @@ describe('retainExif', () => {
   });
 
   it('should retain the Exif information', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         retainExif: true,
         success(result) {

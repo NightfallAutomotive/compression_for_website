@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+### Breaking
+
+- Drop support for Internet Explorer and other legacy browsers. Supported browsers now follow the browserslist `defaults` query.
+- Remove the `canvas.toBlob` polyfill and `Blob` fallbacks: the `success` result is always a `File` (or the original input).
+- Rename the package to `compression-for-website`.
+
+### Changed
+
+- Remove the `blueimp-canvas-to-blob` and `is-blob` runtime dependencies (the package now has none).
+- Add an `exports` map to `package.json`, and rename the ES module build to `dist/compressor.mjs`.
+- Build with Rollup 4 and minify with terser; lint with ESLint 10 (flat config) and Stylelint 17.
+- Replace Karma (deprecated) with Web Test Runner.
+- Remove the upstream author's ads and analytics from the demo page.
+
+### Fixed
+
+- Release the source image's object URL when compression fails or is aborted, instead of leaking it until the page is closed.
+
 ## 1.4.0 (Oct 6, 2026)
 
 - Add the `Compressor.create` static method for creating a new `Compressor` instance without the `new` operator (#167).

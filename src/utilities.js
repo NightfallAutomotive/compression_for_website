@@ -1,4 +1,4 @@
-import { WINDOW } from './constants';
+import { WINDOW } from './constants.js';
 
 /**
  * Check if the given value is a positive number.
@@ -7,15 +7,20 @@ import { WINDOW } from './constants';
  */
 export const isPositiveNumber = (value) => value > 0 && value < Infinity;
 
-const { slice } = Array.prototype;
-
 /**
- * Convert array-like or iterable object to an array.
- * @param {*} value - The value to convert.
- * @returns {Array} Returns a new array.
+ * Check if the given value is a Blob (or File) object.
+ * @param {*} value - The value to check.
+ * @returns {boolean} Returns `true` if the given value is a Blob object, else `false`.
  */
-export function toArray(value) {
-  return Array.from ? Array.from(value) : slice.call(value);
+export function isBlob(value) {
+  const { Blob } = WINDOW;
+
+  if (!Blob) {
+    return false;
+  }
+
+  // The `toString` check also matches Blobs created in another realm, such as an iframe
+  return value instanceof Blob || Object.prototype.toString.call(value) === '[object Blob]';
 }
 
 const REGEXP_IMAGE_TYPE = /^image\/.+$/;
@@ -35,7 +40,7 @@ export function isImageType(value) {
  * @returns {string} Returns the image extension.
  */
 export function imageTypeToExtension(value) {
-  let extension = isImageType(value) ? value.substr(6) : '';
+  let extension = isImageType(value) ? value.slice(6) : '';
 
   if (extension === 'jpeg') {
     extension = 'jpg';
@@ -126,9 +131,7 @@ export function arrayBufferToDataURL(arrayBuffer, mimeType) {
   let uint8 = new Uint8Array(arrayBuffer);
 
   while (uint8.length > 0) {
-    // XXX: Babel's `toConsumableArray` helper will throw error in IE or Safari 9
-    // eslint-disable-next-line prefer-spread
-    chunks.push(fromCharCode.apply(null, toArray(uint8.subarray(0, chunkSize))));
+    chunks.push(fromCharCode(...uint8.subarray(0, chunkSize)));
     uint8 = uint8.subarray(chunkSize);
   }
 
@@ -330,7 +333,7 @@ export function getAdjustedSizes(
  * @returns {Array} The read Exif information.
  */
 export function getExif(arrayBuffer) {
-  const array = toArray(new Uint8Array(arrayBuffer));
+  const array = Array.from(new Uint8Array(arrayBuffer));
   const { length } = array;
   const segments = [];
   let start = 0;
@@ -373,7 +376,7 @@ export function getExif(arrayBuffer) {
  * @returns {ArrayBuffer} The transformed array buffer.
  */
 export function insertExif(arrayBuffer, exifArray) {
-  const array = toArray(new Uint8Array(arrayBuffer));
+  const array = Array.from(new Uint8Array(arrayBuffer));
 
   if (array[2] !== 0xFF || array[3] !== 0xE0) {
     return arrayBuffer;

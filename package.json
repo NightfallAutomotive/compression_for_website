@@ -1,11 +1,22 @@
 {
-  "name": "compressorjs",
+  "name": "compression-for-website",
   "version": "1.4.0",
-  "description": "JavaScript image compressor.",
+  "description": "JavaScript image compressor for the web.",
   "main": "dist/compressor.common.js",
-  "module": "dist/compressor.esm.js",
+  "module": "dist/compressor.mjs",
   "browser": "dist/compressor.js",
   "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/compressor.mjs",
+      "require": "./dist/compressor.common.js",
+      "default": "./dist/compressor.mjs"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "files": [
     "src",
     "dist",
@@ -14,79 +25,73 @@
   "scripts": {
     "build": "rollup -c",
     "clean": "del-cli dist",
-    "compress": "uglifyjs dist/compressor.js -o dist/compressor.min.js -c -m --comments /^!/",
     "dev": "rollup -c -m -w",
     "lint": "npm run lint:js && npm run lint:css",
-    "lint:css": "stylelint docs/**/*.css --fix",
-    "lint:js": "eslint src test *.js --fix",
+    "lint:css": "stylelint \"docs/**/*.css\" --fix",
+    "lint:js": "eslint --fix",
     "prepare": "simple-git-hooks",
-    "release": "npm run clean && npm run lint && npm run build && npm run compress && npm test",
+    "release": "npm run clean && npm run lint && npm run build && npm test",
     "start": "npm run dev",
-    "test": "cross-env NODE_ENV=test karma start test/karma.conf.js"
+    "test": "web-test-runner"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fengyuanchen/compressorjs.git"
+    "url": "git+https://github.com/NightfallAutomotive/compression_for_website.git"
   },
   "keywords": [
     "image",
     "compress",
     "compressor",
-    "compressor.js",
     "image-compressor",
     "lossy-compression",
     "javascript",
     "front-end",
     "web"
   ],
-  "author": {
-    "name": "Chen Fengyuan",
-    "url": "https://chenfengyuan.com/"
-  },
+  "author": "Robert Remblance",
+  "contributors": [
+    {
+      "name": "Chen Fengyuan",
+      "url": "https://chenfengyuan.com/"
+    }
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fengyuanchen/compressorjs/issues"
+    "url": "https://github.com/NightfallAutomotive/compression_for_website/issues"
   },
-  "homepage": "https://fengyuanchen.github.io/compressorjs",
-  "dependencies": {
-    "blueimp-canvas-to-blob": "^3.29.0",
-    "is-blob": "^2.1.0"
+  "homepage": "https://github.com/NightfallAutomotive/compression_for_website#readme",
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx commitlint --edit $1"
+  },
+  "lint-staged": {
+    "*.{js,mjs}": "eslint --fix",
+    "{src,docs}/**/*.css": "stylelint --fix --allow-empty-input"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
-    "@babel/plugin-transform-object-assign": "^7.29.7",
     "@babel/preset-env": "^7.29.7",
-    "@commitlint/cli": "^17.8.1",
-    "@commitlint/config-conventional": "^17.8.1",
-    "@rollup/plugin-babel": "^6.1.0",
-    "@rollup/plugin-commonjs": "^26.0.3",
-    "@rollup/plugin-node-resolve": "^15.3.1",
-    "@rollup/plugin-replace": "^6.0.3",
-    "babel-plugin-istanbul": "^7.0.1",
-    "chai": "^4.5.0",
-    "change-case": "^4.1.2",
-    "codecov": "^3.8.3",
-    "create-banner": "^2.0.0",
-    "cross-env": "^7.0.3",
-    "del-cli": "^5.1.0",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.32.0",
-    "karma": "^6.4.4",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-coverage-istanbul-reporter": "^3.0.3",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-rollup-preprocessor": "^7.0.8",
-    "lint-staged": "^13.3.0",
-    "mocha": "^10.8.2",
-    "puppeteer": "^19.11.1",
-    "rollup": "^3.30.0",
-    "simple-git-hooks": "^2.13.1",
-    "stylelint": "^15.11.0",
-    "stylelint-config-standard": "^30.0.1",
-    "stylelint-order": "^6.0.4",
-    "uglify-js": "^3.19.3"
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-babel": "^7.1.0",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@web/test-runner": "^1.0.0",
+    "@web/test-runner-puppeteer": "^1.0.1",
+    "chai": "^6.3.0",
+    "del-cli": "^8.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "lint-staged": "^17.6.0",
+    "rollup": "^4.64.7",
+    "simple-git-hooks": "^2.14.0",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.2"
+  },
+  "allowScripts": {
+    "puppeteer@25.14.0": true,
+    "simple-git-hooks@2.14.0": true
   }
 }

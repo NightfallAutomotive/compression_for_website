@@ -4,7 +4,7 @@ describe('create', () => {
   });
 
   it('should create a Compressor instance', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = Compressor.create(image, {
         quality: 0.6,
       });

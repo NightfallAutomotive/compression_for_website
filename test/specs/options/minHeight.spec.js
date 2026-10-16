@@ -1,6 +1,6 @@
 describe('minHeight', () => {
   it('should be `0` by default', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       const compressor = new Compressor(image);
 
       expect(compressor.options.minHeight).to.equal(0);
@@ -9,7 +9,7 @@ describe('minHeight', () => {
   });
 
   it('should not less than the given minimum height', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       const compressor = new Compressor(image, {
         minHeight: 1000,
         success(result) {
@@ -28,7 +28,7 @@ describe('minHeight', () => {
   });
 
   it('should not less than the given minimum height even it is rotated', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       new Compressor(image, {
         minHeight: 1000,
         success(result) {
@@ -45,7 +45,7 @@ describe('minHeight', () => {
   });
 
   it('should be ignored when the given minimum height does not greater than 0', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         minHeight: -1000,
         success(result) {
@@ -62,7 +62,7 @@ describe('minHeight', () => {
   });
 
   it('should be resized to fit the aspect ratio of the original image when the `minWidth` option is set', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         minWidth: 750,
         minHeight: 1000,
@@ -81,7 +81,7 @@ describe('minHeight', () => {
   });
 
   it('should be ignored when the `maxHeight` is set and its value is more lesser', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.png', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.png', (image) => {
       new Compressor(image, {
         minHeight: 1000,
         maxHeight: 100,

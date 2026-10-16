@@ -1,6 +1,6 @@
 describe('mimeType', () => {
   it('should be `auto` by default', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image);
 
       expect(compressor.options.mimeType).to.equal('auto');
@@ -9,7 +9,7 @@ describe('mimeType', () => {
   });
 
   it('should match the given mime type', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       image.name = 'picture.jpg';
 
       const mimeType = 'image/webp';

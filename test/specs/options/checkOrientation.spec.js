@@ -1,6 +1,6 @@
 describe('checkOrientation', () => {
   it('should check orientation by default', (done) => {
-    window.loadImageAsBlob('/base/docs/images/picture.jpg', (image) => {
+    window.loadImageAsBlob('/docs/images/picture.jpg', (image) => {
       const compressor = new Compressor(image, {
         success(result) {
           const newImage = new Image();
