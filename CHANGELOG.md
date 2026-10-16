@@ -15,6 +15,7 @@
 - Build with Rollup 4 and minify with terser; lint with ESLint 10 (flat config) and Stylelint 17.
 - Replace Karma (deprecated) with Web Test Runner.
 - Remove the upstream author's ads and analytics from the demo page.
+- Redesign the demo site in the Nightfall style with a new sample image and grayscale, watermark and Nord palette effects, and rebuild it without Vue, Bootstrap or jQuery, so it makes no third-party requests.
 
 ### Fixed
 
