@@ -830,6 +830,17 @@ input[type="range"] {
   margin: 0;
 }
 
+.site-footer .made-by {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin-bottom: 4px;
+}
+
+.site-footer .made-by a {
+  color: var(--brand);
+  font-weight: 600;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
