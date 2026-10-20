@@ -4,13 +4,13 @@
 
 > JavaScript image compressor. Uses the browser's native [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) method to do the compression work, which means it is **lossy compression**, **asynchronous**, and has **different compression effects in different browsers**. Generally use this to precompress an image on the client side before uploading it.
 
-**Live demo: [compress-nord.netlify.app](https://compress-nord.netlify.app/)**
+**Live demo: [compress.nightfalltools.co.uk](https://compress.nightfalltools.co.uk/)**
 
 A fork of [Compressor.js](https://github.com/fengyuanchen/compressorjs) by Chen Fengyuan, modernised for current browsers.
 
 ## Live Demo
 
-Try it at **[compress-nord.netlify.app](https://compress-nord.netlify.app/)**. Drop in an image, tweak the options and download the result. Everything runs in your browser, so your images are never uploaded anywhere.
+Try it at **[compress.nightfalltools.co.uk](https://compress.nightfalltools.co.uk/)**. Drop in an image, tweak the options and download the result. Everything runs in your browser, so your images are never uploaded anywhere.
 
 ![The Nightfall Compress playground, showing the options panel and a 37.8% size saving on the sample image](.github/screenshots/playground.jpg)
 

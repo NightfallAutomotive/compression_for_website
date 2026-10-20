@@ -59,7 +59,7 @@
   "bugs": {
     "url": "https://github.com/NightfallAutomotive/compression_for_website/issues"
   },
-  "homepage": "https://compress-nord.netlify.app/",
+  "homepage": "https://compress.nightfalltools.co.uk/",
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",
     "commit-msg": "npx commitlint --edit $1"
