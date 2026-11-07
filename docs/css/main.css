@@ -45,8 +45,93 @@
   --shadow-lg: 0 10px 30px rgb(0 0 0 / 30%);
   --font: inter, -apple-system, blinkmacsystemfont, "Segoe UI", roboto, arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", menlo, consolas, monospace;
+  --brand-hover: #b5cf9e;
+  --on-brand: var(--nord0);
+  --accent-text: var(--nord8);
+  --glow: #3b4556;
+  --header-glass: rgb(46 52 64 / 85%);
+  --label-glass: rgb(46 52 64 / 80%);
+  --check-a: #323845;
+  --check-b: #2b303b;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
   color-scheme: dark;
+}
+
+/* Light mode (Nord Snow Storm): the device's setting, unless the sun/moon switch chose (data-theme).
+   Colours are deepened so text passes 4.5:1 on the pale panels. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+
+    --background: #e5e9f0;
+    --surface: #f2f4f8;
+    --surface-elevated: #dde3ec;
+    --surface-sunken: #e9edf3;
+    --border: #cbd2dd;
+    --text-primary: #2e3440;
+    --text-secondary: #3b4252;
+    --text-muted: #4c566a;
+    --primary: #476588;
+    --primary-hover: #3b5675;
+    --primary-foreground: #fff;
+    --brand: #3f6b32;
+    --brand-hover: #34592a;
+    --on-brand: #fff;
+    --success: #3f6b32;
+    --danger: #a3404a;
+    --focus-ring: #476588;
+    --accent-text: #2f6f80;
+    --shadow-md: 0 4px 12px rgb(46 52 64 / 12%);
+    --shadow-lg: 0 10px 30px rgb(46 52 64 / 16%);
+    --glow: #d3dbe8;
+    --header-glass: rgb(242 244 248 / 85%);
+    --label-glass: rgb(242 244 248 / 85%);
+    --check-a: #e5e9f0;
+    --check-b: #d8dee9;
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --background: #e5e9f0;
+  --surface: #f2f4f8;
+  --surface-elevated: #dde3ec;
+  --surface-sunken: #e9edf3;
+  --border: #cbd2dd;
+  --text-primary: #2e3440;
+  --text-secondary: #3b4252;
+  --text-muted: #4c566a;
+  --primary: #476588;
+  --primary-hover: #3b5675;
+  --primary-foreground: #fff;
+  --brand: #3f6b32;
+  --brand-hover: #34592a;
+  --on-brand: #fff;
+  --success: #3f6b32;
+  --danger: #a3404a;
+  --focus-ring: #476588;
+  --accent-text: #2f6f80;
+  --shadow-md: 0 4px 12px rgb(46 52 64 / 12%);
+  --shadow-lg: 0 10px 30px rgb(46 52 64 / 16%);
+  --glow: #d3dbe8;
+  --header-glass: rgb(242 244 248 / 85%);
+  --label-glass: rgb(242 244 248 / 85%);
+  --check-a: #e5e9f0;
+  --check-b: #d8dee9;
+}
+
+/* while switching, colours ease across instead of jumping */
+html.theming,
+html.theming * {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease !important;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 *,
@@ -61,7 +146,7 @@ html {
 
 body {
   background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, #3b4556 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% -10%, var(--glow) 0%, transparent 70%),
     var(--background);
   color: var(--text-primary);
   font-family: var(--font);
@@ -122,9 +207,69 @@ img {
 
 /* Header */
 
+/* the sun/moon switch (as on Nightfall Tools, RemapData and Statement Bridge):
+   shows the current mode, turning from one to the other */
+.theme {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-grid;
+  height: 36px;
+  padding: 0;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 100ms var(--ease-out), color 150ms ease, border-color 150ms ease;
+  width: 36px;
+}
+
+.theme svg {
+  grid-area: 1 / 1;
+  height: 18px;
+  transition: transform 0.35s var(--ease-out), opacity 0.2s ease;
+  width: 18px;
+}
+
+.theme .sun,
+[data-mode="light"] .theme .moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+[data-mode="light"] .theme .sun {
+  opacity: 1;
+  transform: none;
+}
+
+.theme:active {
+  transform: scale(0.92);
+}
+
+.theme:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .theme:hover {
+    border-color: var(--focus-ring);
+    color: var(--text-primary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme,
+  .theme svg {
+    transition: none;
+  }
+}
+
+
 .site-header {
   backdrop-filter: blur(8px);
-  background: rgb(46 52 64 / 85%);
+  background: var(--header-glass);
   border-bottom: 1px solid var(--surface-elevated);
   position: sticky;
   top: 0;
@@ -161,6 +306,12 @@ img {
 
 .brand span {
   color: var(--brand);
+}
+
+.header-links {
+  align-items: center;
+  display: flex;
+  gap: 12px;
 }
 
 .site-nav {
@@ -516,8 +667,8 @@ input[type="range"] {
 
 .effect-nord[aria-pressed="true"] {
   background: rgb(136 192 208 / 15%);
-  border-color: var(--nord8);
-  color: var(--nord8);
+  border-color: var(--accent-text);
+  color: var(--accent-text);
 }
 
 .effect-nord[aria-pressed="true"]::before {
@@ -567,13 +718,13 @@ input[type="range"] {
 .button-download {
   background: var(--brand);
   box-shadow: 0 0 0 3px rgb(163 190 140 / 20%);
-  color: var(--nord0);
+  color: var(--on-brand);
   flex-shrink: 0;
 }
 
 .button-download:hover {
-  background: #b5cf9e;
-  color: var(--nord0);
+  background: var(--brand-hover);
+  color: var(--on-brand);
 }
 
 .button[aria-disabled="true"] {
@@ -599,7 +750,7 @@ input[type="range"] {
   align-items: center;
   aspect-ratio: 4 / 3;
   background:
-    repeating-conic-gradient(#323845 0% 25%, #2b303b 0% 50%) 50% / 20px 20px;
+    repeating-conic-gradient(var(--check-a) 0% 25%, var(--check-b) 0% 50%) 50% / 20px 20px;
   border-radius: var(--radius-md);
   display: flex;
   justify-content: center;
@@ -709,7 +860,7 @@ input[type="range"] {
 
   aspect-ratio: 16 / 9;
   background:
-    repeating-conic-gradient(#323845 0% 25%, #2b303b 0% 50%) 50% / 20px 20px;
+    repeating-conic-gradient(var(--check-a) 0% 25%, var(--check-b) 0% 50%) 50% / 20px 20px;
   border-radius: var(--radius-md);
   max-height: 70vh;
   overflow: hidden;
@@ -766,7 +917,7 @@ input[type="range"] {
 }
 
 .compare-label {
-  background: rgb(46 52 64 / 80%);
+  background: var(--label-glass);
   border-radius: var(--radius-sm);
   font-size: 0.75rem;
   font-weight: 600;
