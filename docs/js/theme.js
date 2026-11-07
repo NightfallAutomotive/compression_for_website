@@ -41,3 +41,6 @@
 	if (sysLight.addEventListener) sysLight.addEventListener("change", showMode);
 	showMode();
 })();
+
+// iPhone Safari only shows :active press styles once the page listens for touches
+document.addEventListener("touchstart", function () {}, { passive: true });
