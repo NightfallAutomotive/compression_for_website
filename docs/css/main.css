@@ -358,6 +358,7 @@ img {
   min-height: 64px;
 }
 
+
 .brand {
   align-items: center;
   color: var(--text-primary);
@@ -410,6 +411,36 @@ img {
   align-items: center;
   display: flex;
   gap: 12px;
+}
+
+/* on a phone the logo and both buttons stay on one line */
+@media (width <= 640px) {
+  .site-header .container {
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+
+  .header-links {
+    gap: 8px;
+  }
+
+  .brand {
+    gap: 10px;
+  }
+
+  .brand-mark {
+    height: 36px;
+    width: 36px;
+  }
+
+  .brand-copy strong {
+    font-size: 14px;
+    letter-spacing: 0.2em;
+  }
+
+  .brand-copy b {
+    letter-spacing: 0.22em;
+  }
 }
 
 /* Hero */
